@@ -85,9 +85,9 @@ key: value
 
 ## Tables
 
-| Column 1 | Column 2 |
-|-|-|
-| A thing | Another thing |
+| Column 1 | Column 2      |
+| -------- | ------------- |
+| A thing  | Another thing |
 
 
 ## Tweetcards

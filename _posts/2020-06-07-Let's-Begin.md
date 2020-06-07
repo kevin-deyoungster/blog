@@ -6,7 +6,7 @@ categories: [beginning]
 title: Welcome to the Blog
 ---
 
-It is said that the first step is always the most difficult, and that after taking it, everything else just falls into place 🧘🏿‍♀️.
+> It is said that the first step is always the most difficult, and that after taking it, everything else just falls into place 🧘🏿‍♀️.
 
 I am *yet* to experience this sort of enlightment -let me know if you have, I'd love some pointers- I always start a tech blog and never really get to the second post. I am hoping that is different this time. 
 

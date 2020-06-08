@@ -10,4 +10,6 @@ impact of other industries and I'm enjoying every bit of that journey.
 In this
 blog, you'll find a gamut of things: tutorials, how-tos, thought pieces and
 everything else I do in the technoverse and one thing I'm really hoping for is
-that you get to pickup some one or two things 😊 # Posts
+that you get to pickup some one or two things 😊 
+
+# Posts

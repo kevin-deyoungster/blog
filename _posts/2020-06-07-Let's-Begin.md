@@ -14,6 +14,6 @@ Please, if you've experienced this sort of enlightenment let me know for I am ye
 
 In this little corner of the interwebs, you can expect to find tutorials, thought pieces, and anything I'm doing (or intend to do) in the technoverse. 
 
-Welcome 🤗 to my krataa.
+Welcome to my krataa 🤗.
 
 

@@ -3,7 +3,7 @@ toc: true
 layout: post
 description: 
 categories: [beginning]
-title: Welcome to the Blog
+title: Welcome!
 ---
 
 > It is said that the first step is the most important. It is the most crucial and the effective as it will initiate the direction you have chosen 🧘🏿‍♀

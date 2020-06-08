@@ -2,7 +2,6 @@
 toc: true
 layout: post
 description: 
-categories: [beginning]
 title: Welcome!
 ---
 

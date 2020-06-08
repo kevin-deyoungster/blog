@@ -1,16 +1,16 @@
 ---
 toc: true
 layout: post
-description: Welcome to the Blog
+description: 
 categories: [beginning]
 title: Welcome to the Blog
 ---
 
-> It is said that the first step is always the most difficult, and that after taking it, everything else just falls into place 🧘🏿‍♀️.
+> It is said that the first step is the most important. It is the most crucial and the effective as it will initiate the direction you have chosen 🧘🏿‍♀
 
-I am *yet* to experience this sort of enlightment -let me know if you have, I'd love some pointers- I always start a tech blog and never really get to the second post. I am hoping that is different this time. 
+If you've experienced this sort of enlightenment please let me know - I'd love some pointers - for I am yet to achieve this. I always start a tech blog and never really make it past the second post. It is my hope that this time will be different. I believe I *have* something to share, and more importantly that you might have something to *pick* from this blog. 
 
-In this blog, you can expect to find tutorials, project announcements, thought pieces, opinion pieces and really anything there is that relates to what I'm doing (or intend to do) in the technoverse. 
+In this little corner of the web, you can expect to find tutorials, thought pieces, and anything I'm doing (or intend to do) in the technoverse. 
 
-It's my ultimate hope that you'll be able to benefit from this 🤗
+I hope you'll be able to benefit from this 🤗
 

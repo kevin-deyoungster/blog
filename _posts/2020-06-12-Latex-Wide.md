@@ -1,7 +1,7 @@
 ---
 toc: false
 layout: post
-description: Making a wide table in a two-column LaTeX document
+description: Pro tip: Resize it
 categories: [LaTeX, table]
 title: How to make a really wide table in LaTeX
 ---

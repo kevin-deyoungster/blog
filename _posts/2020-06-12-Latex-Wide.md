@@ -1,7 +1,7 @@
 ---
 toc: false
 layout: post
-description: Pro tip: Resize it
+description: Pro tip - Resize it
 categories: [LaTeX, table]
 title: How to make a really wide table in LaTeX
 ---

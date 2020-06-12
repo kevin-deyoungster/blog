@@ -2,6 +2,17 @@
   
     
         "post0": {
+            "title": "How to make a really wide table in LaTeX",
+            "content": "ℹ️ Click this link to get a template LaTeX document with the different tables layouts in this post. . I was working on a literature review for my research class back in college. I needed to make a really wide table to summarize my results in the ACM LaTeX template. Was I using a single-column LaTeX document, it would’ve been straight forward, but this was a double-column document which brought a challenge. . Chances are you’d want to create a wide table in a double-column LaTeX document, and if you use the regular code for a table in LaTeX you end up with something like this: . . After some googling, you’d find this good answer on stackoverflow and get this: . . When what you really want is something like this: . . To get the really wide table (above) to fit on the page over both columns, you’re going to resize it. The only caveat is that your font sizes will be smaller, which isn’t too much of a problem. . The final code looks like this: . % import the adjustbox package at the top of your document usepackage{adjustbox} begin{table*}[ht] caption{Table Caption} centering % wrap the tabular element in a resizebox resizebox{ linewidth}{!}{ begin{tabular}{ |l|l|l|l|l|l|l|l| } % % table contents go in here % end{tabular} } end{table*} . And there you go! Checkout this link to get a LaTeX template with all three table types. .",
+            "url": "https://kevin-deyoungster.github.io/blog/latex/table/2020/06/12/Latex-Wide.html",
+            "relUrl": "/latex/table/2020/06/12/Latex-Wide.html",
+            "date": " • Jun 12, 2020"
+        }
+        
+    
+  
+    
+        ,"post1": {
             "title": "Welcome!",
             "content": "It is said: . The first step is the most important. It is the most crucial and the most effective as it will initiate the direction you have chosen. 🧘🏿‍♀ . Please, if you’ve experienced this sort of enlightenment let me know for I am yet to achieve this. I always start a tech blog and never really make it past the second post 😂. I hope this time will be different. I believe I have something to share, and more importantly, that you might have something to pick from this blog. . In this little corner of the interwebs, you can expect to find tutorials, think pieces, and anything I’m doing (or intend to do) in the technoverse. . Welcome to my krataa 🤗 .",
             "url": "https://kevin-deyoungster.github.io/blog/2020/06/07/Let's-Begin.html",

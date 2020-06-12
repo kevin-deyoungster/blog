@@ -1,4 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://kevin-deyoungster.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kevin-deyoungster.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-08T19:51:28-05:00</updated><id>https://kevin-deyoungster.github.io/blog/feed.xml</id><title type="html">Kevin’s Krataa</title><subtitle>Tech Blog</subtitle><entry><title type="html">Welcome!</title><link href="https://kevin-deyoungster.github.io/blog/2020/06/07/Let's-Begin.html" rel="alternate" type="text/html" title="Welcome!" /><published>2020-06-07T00:00:00-05:00</published><updated>2020-06-07T00:00:00-05:00</updated><id>https://kevin-deyoungster.github.io/blog/2020/06/07/Let's-Begin</id><content type="html" xml:base="https://kevin-deyoungster.github.io/blog/2020/06/07/Let's-Begin.html">&lt;p&gt;It is said:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://kevin-deyoungster.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://kevin-deyoungster.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-12T13:12:47-05:00</updated><id>https://kevin-deyoungster.github.io/blog/feed.xml</id><title type="html">Kevin’s Krataa</title><subtitle>Tech Blog</subtitle><entry><title type="html">How to make a really wide table in LaTeX</title><link href="https://kevin-deyoungster.github.io/blog/latex/table/2020/06/12/Latex-Wide.html" rel="alternate" type="text/html" title="How to make a really wide table in LaTeX" /><published>2020-06-12T00:00:00-05:00</published><updated>2020-06-12T00:00:00-05:00</updated><id>https://kevin-deyoungster.github.io/blog/latex/table/2020/06/12/Latex-Wide</id><content type="html" xml:base="https://kevin-deyoungster.github.io/blog/latex/table/2020/06/12/Latex-Wide.html">&lt;blockquote&gt;
+  &lt;p&gt;ℹ️ Click this &lt;a href=&quot;https://gist.github.com/kevin-deyoungster/3e716b8eba5962a4f46d369b4d6b3036&quot;&gt;link&lt;/a&gt; to get a template LaTeX document with the different tables layouts in this post.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I was working on a literature review for my research class back in college. I needed to make a really wide table to summarize my results in the &lt;a href=&quot;https://www.overleaf.com/LaTeX/templates/association-for-computing-machinery-acm-large-2-column-format-template/qwcgpbmkkvpq&quot;&gt;ACM LaTeX template&lt;/a&gt;. Was I using a single-column LaTeX document, it would’ve been straight forward, but this was a double-column document which brought a challenge.&lt;/p&gt;
+
+&lt;p&gt;Chances are you’d want to create a wide table in a double-column LaTeX document, and if you use the &lt;a href=&quot;https://www.overleaf.com/learn/LaTeX/tables#Multi-page_tables&quot;&gt;regular&lt;/a&gt; code for a table in LaTeX you end up with something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://imgur.com/e2ct547.png&quot; alt=&quot;&quot; title=&quot;Regular table overflows&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After some googling, you’d find this &lt;a href=&quot;https://tex.stackexchange.com/questions/89462/page-wide-table-in-two-column-mode&quot;&gt;good answer on stackoverflow&lt;/a&gt; and get this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://imgur.com/sXgJYAO.png&quot; alt=&quot;&quot; title=&quot;We get a double-column table alright, but it stilll doesn't fit the page exactly&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When what you really want is something like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://imgur.com/1syQl1Q.png&quot; alt=&quot;&quot; title=&quot;Ahhhhh much better&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;To get the really wide table (above) to fit on the page over both columns, you’re going to resize it. The only caveat is that your font sizes will be smaller, which isn’t too much of a problem.&lt;/p&gt;
+
+&lt;p&gt;The final code looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-LaTeX highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;c&quot;&gt;% import the adjustbox package at the top of your document&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;\usepackage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;adjustbox&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;\begin{table*}&lt;/span&gt;[ht]
+    &lt;span class=&quot;k&quot;&gt;\caption&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;Table Caption&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;\centering&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;% wrap the tabular element in a resizebox &lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;\resizebox&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;\linewidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}{&lt;/span&gt;!&lt;span class=&quot;p&quot;&gt;}{&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;\begin{tabular}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; |l|l|l|l|l|l|l|l| &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; 
+            &lt;span class=&quot;c&quot;&gt;% &lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;% table contents go in here&lt;/span&gt;
+            &lt;span class=&quot;c&quot;&gt;% &lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;\end{tabular}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;\end{table*}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And there you go! Checkout &lt;a href=&quot;https://gist.github.com/kevin-deyoungster/3e716b8eba5962a4f46d369b4d6b3036&quot;&gt;this link&lt;/a&gt; to get a LaTeX template with all three table types.&lt;/p&gt;</content><author><name></name></author><summary type="html">ℹ️ Click this link to get a template LaTeX document with the different tables layouts in this post.</summary></entry><entry><title type="html">Welcome!</title><link href="https://kevin-deyoungster.github.io/blog/2020/06/07/Let's-Begin.html" rel="alternate" type="text/html" title="Welcome!" /><published>2020-06-07T00:00:00-05:00</published><updated>2020-06-07T00:00:00-05:00</updated><id>https://kevin-deyoungster.github.io/blog/2020/06/07/Let's-Begin</id><content type="html" xml:base="https://kevin-deyoungster.github.io/blog/2020/06/07/Let's-Begin.html">&lt;p&gt;It is said:&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;The first step is the most important. It is the most crucial and the most effective as it will initiate the direction you have chosen. 🧘🏿‍♀&lt;/p&gt;

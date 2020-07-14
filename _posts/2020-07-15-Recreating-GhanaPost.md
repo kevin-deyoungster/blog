@@ -2,7 +2,7 @@
 toc: true
 layout: post
 description: 
-categories: [GhanaPost, Digital Address, Geospatial, Python, React, GIS, QGIS]
+categories: [GhanaPost, Digital Address, Geospatial, Python, React, GIS]
 title: Recreating GhanaPostGPS' Digital Addressing System
 ---
 

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Recreating Ghana’s Digital Address System | Kevin’s Krataa</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Recreating Ghana’s Digital Address System" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An end-to-end recreation of GhanaPostGPS using entirely open-source technologies" />
+<meta property="og:description" content="An end-to-end recreation of GhanaPostGPS using entirely open-source technologies" />
+<link rel="canonical" href="https://kevin-deyoungster.github.io/blog/ghanapost/digital%20address/geospatial/python/react/gis/2020/07/20/Recreating-GhanaPost.html" />
+<meta property="og:url" content="https://kevin-deyoungster.github.io/blog/ghanapost/digital%20address/geospatial/python/react/gis/2020/07/20/Recreating-GhanaPost.html" />
+<meta property="og:site_name" content="Kevin’s Krataa" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"An end-to-end recreation of GhanaPostGPS using entirely open-source technologies","mainEntityOfPage":{"@type":"WebPage","@id":"https://kevin-deyoungster.github.io/blog/ghanapost/digital%20address/geospatial/python/react/gis/2020/07/20/Recreating-GhanaPost.html"},"@type":"BlogPosting","url":"https://kevin-deyoungster.github.io/blog/ghanapost/digital%20address/geospatial/python/react/gis/2020/07/20/Recreating-GhanaPost.html","headline":"Recreating Ghana’s Digital Address System","dateModified":"2020-07-20T00:00:00-05:00","datePublished":"2020-07-20T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://kevin-deyoungster.github.io/blog/feed.xml" title="Kevin's Krataa" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Recreating Ghana’s Digital Address System | Kevin’s Krataa</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Recreating Ghana’s Digital Address System" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An end-to-end recreation of GhanaPostGPS using entirely open-source technologies" />
+<meta property="og:description" content="An end-to-end recreation of GhanaPostGPS using entirely open-source technologies" />
+<link rel="canonical" href="https://kevin-deyoungster.github.io/blog/ghanapost/digital%20address/geospatial/python/react/gis/2020/07/20/Recreating-GhanaPost.html" />
+<meta property="og:url" content="https://kevin-deyoungster.github.io/blog/ghanapost/digital%20address/geospatial/python/react/gis/2020/07/20/Recreating-GhanaPost.html" />
+<meta property="og:site_name" content="Kevin’s Krataa" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"An end-to-end recreation of GhanaPostGPS using entirely open-source technologies","mainEntityOfPage":{"@type":"WebPage","@id":"https://kevin-deyoungster.github.io/blog/ghanapost/digital%20address/geospatial/python/react/gis/2020/07/20/Recreating-GhanaPost.html"},"@type":"BlogPosting","url":"https://kevin-deyoungster.github.io/blog/ghanapost/digital%20address/geospatial/python/react/gis/2020/07/20/Recreating-GhanaPost.html","headline":"Recreating Ghana’s Digital Address System","dateModified":"2020-07-20T00:00:00-05:00","datePublished":"2020-07-20T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://kevin-deyoungster.github.io/blog/feed.xml" title="Kevin's Krataa" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">Kevin&#39;s Krataa</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Recreating Ghana&#39;s Digital Address System</h1><p class="page-description">An end-to-end recreation of GhanaPostGPS using entirely open-source technologies</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-07-20T00:00:00-05:00" itemprop="datePublished">
+        Jul 20, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#GhanaPost">GhanaPost</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#Digital Address">Digital Address</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#Geospatial">Geospatial</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#Python">Python</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#React">React</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#GIS">GIS</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#introduction">Introduction</a></li>
+<li class="toc-entry toc-h2"><a href="#how-does-ghanapostgps-work">How does GhanaPostGPS work?</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#the-address">The Address</a></li>
+<li class="toc-entry toc-h3"><a href="#the-algorithm">The Algorithm</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#part-1-region-and-district-code">Part 1: Region and District code</a></li>
+<li class="toc-entry toc-h4"><a href="#part-2-area-code">Part 2: Area code</a></li>
+<li class="toc-entry toc-h4"><a href="#part-3-unique-address--location">Part 3: Unique address / location</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#implementation">Implementation</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#step-0-data-preparation">Step 0: Data Preparation</a></li>
+<li class="toc-entry toc-h3"><a href="#step-1-address-generation">Step 1: Address Generation</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#part-1-region-and-district-code-1">Part 1: Region and District Code</a></li>
+<li class="toc-entry toc-h4"><a href="#part-2-area-code-1">Part 2: Area Code</a></li>
+<li class="toc-entry toc-h4"><a href="#part-3-location-code--unique-address">Part 3: Location Code / Unique address</a></li>
+<li class="toc-entry toc-h4"><a href="#part-4-storage">Part 4: Storage</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#step-2-coordinate-mapping">Step 2: Coordinate Mapping</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#1-find-the-region-and-district-that-contain-the-gps-coordinate">1. Find the region and district that contain the GPS coordinate</a></li>
+<li class="toc-entry toc-h4"><a href="#2-find-the-area-code-and-location-code-unique-address">2. Find the area code and location code (unique address)</a></li>
+<li class="toc-entry toc-h4"><a href="#3-put-them-all-together">3. Put them all together!</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#step-3-application-development">Step 3: Application Development</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#conclusion">Conclusion</a></li>
+<li class="toc-entry toc-h2"><a href="#acknowledgment">Acknowledgment</a></li>
+<li class="toc-entry toc-h2"><a href="#disclaimer">Disclaimer</a></li>
+</ul><p><img src="https://i.imgur.com/L2aIeHC.png" alt="">
+<em>Screenshot of the frontend for this project (GhanaPostGPS clone). The map on the left shows the location marker and its cell (red polygon). The sidebar on the right shows the address details. <strong>You can access the <a href="https://cutt.ly/ghanapostclone">demo</a> here</strong>.</em></p>
+
+<h2 id="introduction">
+<a class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>In 2017, the Ghana government introduced a digital addressing system
+called GhanaPostGPS, which effectively provides an address for “every
+location and place in the country”. GhanaPostGPS was built with the
+intent of enhancing the delivery of social services (health services
+like ambulance, fire depart, law enforcement, electricity provision and
+a revamped postal system)<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>. The project, of course, targeting a
+nation-wide scale, was estimated to cost $2.5 million<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> with
+$679,409.19<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> allocated for building the system.</p>
+
+<p>They released <a href="https://ghanapostgps.com/map/">a web app</a>
+you can use to try out the system. It provides addresses for any chosen
+location on the map.</p>
+
+<p><img src="https://i.imgur.com/BgWuDX5.png" alt="">
+<em>The GhanaPostGPS web app, showing a location marker and address information on the right sidebar.</em></p>
+
+<p>In this article, I’ll take you through my process of recreating the
+end-to-end GhanaPostGPS system: data processing/generation, algorithms
+and a bit of software engineering. Let’s begin!</p>
+
+<h2 id="how-does-ghanapostgps-work">
+<a class="anchor" href="#how-does-ghanapostgps-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>How does GhanaPostGPS work?</h2>
+
+<h3 id="the-address">
+<a class="anchor" href="#the-address" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Address</h3>
+
+<p>Well, actually, before we begin, let’s see how the GhanaPostGPS works.
+According to the tabloids, the system gives unique addresses to every
+5x5 m area in the country. An example of an address is <strong>AK-039-5028</strong>.</p>
+
+<p>What does this address mean? First of all, the address is made up of
+three parts.</p>
+
+<p><img src="https://i.imgur.com/2c1aGw0.png" alt="">
+<em>Parts of the GhanaPost address: Regions &gt; Districts &gt; Areas &gt; Unique Locations</em></p>
+
+<p>The first part contains two letters representing the region and district
+of that location, respectively. In this case, <strong>A</strong> for the <strong>A</strong>shanti
+Region, and <strong>K</strong> for the <strong>K</strong>umasi District.</p>
+
+<p>The second part, the area code, is a number representing a 500x500m zone
+called ‘area’. Each district can be divided into many areas. In this
+case, the location is in an area with code <strong>200</strong>.</p>
+
+<p>The third part, the unique address, is a number representing the very
+5x5m zone containing a location. Each location (5x5m zone) is given a
+unique number to ensure that all addresses are distinct. In this case,
+the location is an area with the code <strong>1987</strong>.</p>
+
+<p>These three parts come together to form what is called the GhanaPost
+address. How many unique addresses can we allocate to the whole of
+Ghana? 10 regions * ~16 districts per region * 10 <sup>3</sup> * 10<sup>4</sup> = 1.6
+billion addresses, cool!!</p>
+
+<p>Now that we know what the address format is, let’s look at how exactly
+GhanaPostGPS might generate those codes.</p>
+
+<h3 id="the-algorithm">
+<a class="anchor" href="#the-algorithm" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>The Algorithm</strong>
+</h3>
+
+<p><em>Note</em>: The findings here are reflective of the research I have done
+(gathered from articles, press releases, and inductive observation from
+using the GhanaPost app itself), and <em>not</em> from the creators of the
+GhanaPostGPS system. Therefore, this may not <em>fully</em> reflect how the
+system works.</p>
+
+<p>Let’s look at how addresses are generated for each part separately.</p>
+
+<h4 id="part-1-region-and-district-code">
+<a class="anchor" href="#part-1-region-and-district-code" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Part 1: Region and District code</strong>
+</h4>
+
+<p>This part is relatively straightforward; each region and district is
+given a distinct code (a letter) to represent it.</p>
+
+<h4 id="part-2-area-code">
+<a class="anchor" href="#part-2-area-code" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Part 2: Area code</strong>
+</h4>
+
+<p>Ugh, now it gets interesting! How does GhanaPost address every 500x500m
+area in a district? According to
+<a href="https://www.myjoyonline.com/news/mahama-has-no-clue-about-digital-address-system-bawumia-comes-for-his-favourite-target/">this</a>
+and
+<a href="https://www.ghanabusinessnews.com/2017/11/06/bawumia-replies-mahama-for-describing-ghana-post-gps-as-419-scam/">this</a>,
+the GhanaPost system uses a “Spiral Matrix Postcode algorithm” <sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>
+which refers to the <a href="https://www.educative.io/edpresso/spiral-matrix-algorithm">‘Spiral Matrix
+algorithm</a>’.
+To label (or encode) all areas in a district, the algorithm starts at
+the centre area (the area containing the approx. centre of the district,
+with code <strong>0</strong>). It traverses around this centre in a spiralling
+pattern labelling each cell it encounters. It does this until the whole
+district is covered.</p>
+
+<p><img src="https://i.imgur.com/FA6PnrO.png" alt=""><em>Given a district, start at the center cell and move in a spiral pattern, numbering cells along the way</em></p>
+
+<p><em>I believe the area code uses three digits because districts are
+relatively small and can be covered in less than 1000 (10<sup>3</sup>) areas.</em></p>
+
+<h4 id="part-3-unique-address--location">
+<a class="anchor" href="#part-3-unique-address--location" aria-hidden="true"><span class="octicon octicon-link"></span></a>Part 3: Unique address / location</h4>
+
+<p>What about the unique address for each 5x5m location? How does GhanaPost
+create codes for them? My response...not sure. There is no public
+information on how the team created them. My educated guesses range from
+<em>randomly</em> assigning codes over every 5x5m location to using the <em>spiral
+matrix algorithm</em> (mentioned in part 2) again but on areas this time.</p>
+
+<p>Whew, that sums up how GhanaPost works <em>i.e</em> how it generates unique
+addresses for every location in the country. In the next section, we’ll
+dive right into how I implemented the system and the decisions made
+along the way to build such a system.</p>
+
+<h2 id="implementation">
+<a class="anchor" href="#implementation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implementation</h2>
+
+<h3 id="step-0-data-preparation">
+<a class="anchor" href="#step-0-data-preparation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 0: Data Preparation</h3>
+
+<p>The first step to creating a system like GhanaPostGPS is to obtain
+geometric information about the country, its regions and districts.
+Because this project was experimental, I chose not to work with the
+country’s administrative regions and districts, but instead created
+fictional ones with the help of my little siblings. We pretended to be
+naive<sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup> European leaders in the 19th century<sup id="fnref:6"><a href="#fn:6" class="footnote">6</a></sup> and divided the
+country anyhow <em>we</em> pleased.</p>
+
+<p>The geometric information (shapefile) for the country was downloaded
+from the <a href="https://data.humdata.org/dataset/ghana-administrative-boundaries">Humanitarian Data Exchange</a>
+and manipulated using the open-source software,
+<a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwjd5Pb809LqAhWUOcAKHetjCAYQFjAAegQIARAC&amp;url=https%3A%2F%2Fqgis.org%2F&amp;usg=AOvVaw2q1BgECmWBjBRYrizC7Phe">QGIS</a>.
+I used QGIS to split up Ghana’s polygon into four (4) region polygons
+and further into ninety-four (94) district polygons. After which, we (my
+little siblings &amp; I) named each region and district using the power of
+our imagination -you might see weird names as a result because there was
+no editing process-</p>
+
+<p><img src="https://i.imgur.com/s94td9Z.png" alt=""><em>[Ghana polygon
+feature in QGIS] → [Divided into 4 regions polygons] → [Also
+divided into 94 district polygons]</em></p>
+
+<p>After the <del>fabrication</del> creation process, I wrote a <a href="https://gist.github.com/kevin-deyoungster/11d3412dc86939d63290b6ab6e20a0f6">python
+script</a>
+to export all the features (district &amp; regions) and their geometric
+information (polygon coordinates, centre points) to individual GeoJSON
+files.</p>
+
+<p><img src="https://i.imgur.com/QDjVCcs.png" alt=""><em>Screenshot of a few district GeoJSONs | Screenshot of all region GeoJSONs</em></p>
+
+<p>Now that we have created the geometries for the country’s regions and
+districts, we proceed with generating addresses for all locations in
+them.</p>
+
+<h3 id="step-1-address-generation">
+<a class="anchor" href="#step-1-address-generation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 1: Address Generation</h3>
+
+<h4 id="part-1-region-and-district-code-1">
+<a class="anchor" href="#part-1-region-and-district-code-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Part 1: Region and District Code</h4>
+
+<p>The codes for regions and districts should ideally be pre-determined and
+stored in some mapping data structure like Python’s dictionary where
+names will be keys, and their respective codes will be the values. But
+for this project, I went along with using the first letter of regions
+and districts names to represent them (therefore no need for storage).</p>
+
+<table>
+   <thead>
+      <tr>
+         <th>Region</th>
+         <th>District</th>
+         <th>Region and District Code (combined)</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>
+<strong>L</strong>owaki</td>
+         <td>
+<strong>E</strong>dan</td>
+         <td><strong>LE</strong></td>
+      </tr>
+      <tr>
+         <td>
+<strong>S</strong>outhowa</td>
+         <td>
+<strong>D</strong>abumbum</td>
+         <td><strong>SD</strong></td>
+      </tr>
+      <tr>
+         <td>
+<strong>N</strong>orthupper</td>
+         <td>
+<strong>D</strong>ulolo</td>
+         <td><strong>ND</strong></td>
+      </tr>
+      <tr>
+         <td>
+<strong>U</strong>peaster</td>
+         <td>
+<strong>T</strong>ipo</td>
+         <td><strong>UP</strong></td>
+      </tr>
+      <tr>
+         <td colspan="3">Table showing four sample districts from each region and their codes</td>
+      </tr>
+   </tbody>
+</table>
+
+<h4 id="part-2-area-code-1">
+<a class="anchor" href="#part-2-area-code-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Part 2: Area Code</h4>
+
+<p>Earlier, I explained that GhanaPost used the Spiral Matrix algorithm to
+label areas in a district. It’s well suited for quadrilateral cells
+(GhanaPost uses a square grid). In this recreation, I used a similarly
+hierarchical (multiple-level) grid system but with hexagons instead of
+squares. I used <a href="https://eng.uber.com/h3/">Uber’s H3</a>
+spatial grid index because it was easily accessible (compared to <a href="https://s2geometry.io">the
+quadrilateral alternative</a>). Since
+hexagon grids cells have six edge neighbours instead of four, I had to
+use a different approach to spirally traversing areas in a region.</p>
+
+<p>I used a Breadth-First-Search approach that starts at the centre cell of
+the district and ‘spirals’ outward until the entire district polygon was
+filled with area cells. The simplified pseudocode is as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Initialization
+</span><span class="n">queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+<span class="n">code</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Find</span> <span class="n">the</span> <span class="n">center</span> <span class="n">of</span> <span class="n">the</span> <span class="n">district</span><span class="p">,</span> <span class="n">C</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">Get</span> <span class="n">the</span> <span class="n">grid</span> <span class="n">cell</span> <span class="n">G0</span> <span class="n">that</span> <span class="n">contains</span> <span class="n">this</span> <span class="n">center</span> <span class="n">point</span>
+<span class="n">Add</span> <span class="n">G0</span> <span class="n">to</span> <span class="n">queue</span>
+<span class="n">While</span> <span class="n">queue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">empty</span><span class="p">:</span>
+    <span class="n">Gn</span> <span class="o">=</span> <span class="n">pop</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">item</span> <span class="k">from</span> <span class="n">the</span> <span class="n">queue</span>
+    <span class="n">Label</span> <span class="n">Gn</span> <span class="k">with</span> <span class="n">code</span>
+    <span class="n">code</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">Get</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">neighbors</span> <span class="n">of</span> <span class="n">grid</span> <span class="n">cell</span> <span class="n">Gn</span>
+    <span class="n">Add</span> <span class="n">only</span> <span class="n">the</span> <span class="n">valid</span> <span class="n">neighbors</span> <span class="n">to</span> <span class="n">queue</span>
+</code></pre></div></div>
+
+<p>The procedure is illustrated below:</p>
+
+<p><img src="https://i.imgur.com/er95xdL.png" alt=""><em>1.Find the center point of the district → 2. Label the center cell →1. Label the center cells immediate neighbours → 4. Label those neighbours’ neighbours → 5. Keep going until the whole region is covered with grid cells</em></p>
+
+<h4 id="part-3-location-code--unique-address">
+<a class="anchor" href="#part-3-location-code--unique-address" aria-hidden="true"><span class="octicon octicon-link"></span></a>Part 3: Location Code / Unique address</h4>
+
+<p>Earlier, I explained that areas (500x500m zones) contain much smaller
+locations (5x5m zones). Since areas and locations are at different
+resolutions (sizes), a hierarchical grid system in relating the smaller
+grid cells to their larger parent cells.</p>
+
+<p><img src="https://i.imgur.com/0rMDP9q.png" alt=""><em>H3 grid cells, at resolution for areas | H3 grid cells, at resolution for locations</em></p>
+
+<p>To generate codes for locations, I used the same BFS spiralling
+algorithm for each area but at a smaller resolution (grid cell size) to
+correctly represent locations.</p>
+
+<p><img src="https://i.imgur.com/EsnC2kW.png" alt=""><em>7 areas (red hexagons) | 300 locations (blue hexagons)</em></p>
+
+<h4 id="part-4-storage">
+<a class="anchor" href="#part-4-storage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Part 4: Storage</h4>
+
+<p>The labels/codes for the areas and location cells in each district were
+stored in a simple SQLite database using the following schema (like a
+nested JSON):</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="p">[</span><span class="nx">district_name</span><span class="p">]:</span> <span class="p">{</span>
+        <span class="p">[</span><span class="nx">area</span><span class="err">\</span><span class="nx">_cell</span><span class="err">\</span><span class="nx">_address</span><span class="err">\</span><span class="p">]:</span> <span class="p">{</span>
+            <span class="nl">id</span><span class="p">:</span> <span class="nx">int</span><span class="p">,</span>
+            <span class="nx">children</span><span class="p">:</span> <span class="p">{</span>
+                <span class="p">[</span><span class="nx">unique</span><span class="err">\</span><span class="nx">_cell</span><span class="err">\</span><span class="nx">_address</span><span class="err">\</span><span class="p">]:</span> <span class="p">{</span>
+                    <span class="nl">id</span><span class="p">:</span> <span class="nx">int</span>
+                <span class="p">}</span>  
+                <span class="p">...</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Because this project used larger regions (four massive ones) and
+fairly-sized districts (ninety-four), I had to switch up the format of
+the address to accommodate the larger number of areas per district (in
+the thousands). So, for area codes, I used four digits to represent
+rather than three, and for location codes (unique address) I used three
+digits instead of four. The next address format was:
+<strong>XX</strong>-<strong>XXXX</strong>-<strong>XXX</strong></p>
+
+<p>At this point, every location in the country has been correctly
+addressed. Next was finding out how to fetch these addresses given a
+user’s location.</p>
+
+<h3 id="step-2-coordinate-mapping">
+<a class="anchor" href="#step-2-coordinate-mapping" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 2: Coordinate Mapping</h3>
+
+<p>Great, at this point we have a ~700MB datastore containing area codes
+and unique location addresses for every district, waiting to be used.
+Say someone at Accra Mall, waiting for their date to show up, wants to
+check this system for their address, how would we know what the address
+is?</p>
+
+<p>Primarily, we’re looking for a function <em>f</em> that takes in GPS
+coordinates, <em>x</em> (latitude), <em>y</em> (longitude) and outputs an address <em>A</em>.</p>
+
+<p><img src="https://i.imgur.com/qRR8vgD.png" alt=""></p>
+
+<p>The process of fetching the address for any given GPS coordinate is as
+follows:</p>
+
+<ol>
+  <li>Find which region and district (and region) it falls in and fetch their code (first letters)</li>
+  <li>Find which area <em>and</em> location it falls in and fetch its code from the datastore</li>
+  <li>Return the address by combining outputs from (1), (2)</li>
+</ol>
+
+<h4 id="1-find-the-region-and-district-that-contain-the-gps-coordinate">
+<a class="anchor" href="#1-find-the-region-and-district-that-contain-the-gps-coordinate" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Find the region and district that contain the GPS coordinate</h4>
+
+<p>How do we find which of the 94 districts contains the input GPS
+coordinate?</p>
+
+<p><strong>Option A</strong>: Go through every district (polygon) one by one and see if
+the GPS coordinate ‘fits in’</p>
+
+<p><strong>Option B</strong>: Use a tree-like index structure to check only a certain
+number of possible regions to see if the coordinate ‘fits in’</p>
+
+<p>Which option would you pick?...<em>*click*</em>...fantastico! Option B,
+because it’s much faster. Even though both options are correct, option
+two is more efficient. Option A, in the worst-case scenario, will check
+all <em>n</em> districts (94), but Option B will check max 29 districts!</p>
+
+<p>The tree-like structure used in this project was the
+<a href="https://en.wikipedia.org/wiki/R-tree">RTree</a>, a data
+structure for very efficient spatial queries. Fortunately, the library
+used to read the GeoJSON datasets for districts and regions (GeoPandas)
+has an in-built in-memory implementation to perform Option B.</p>
+
+<p><img src="https://i.imgur.com/lRZs6G4.png" alt=""><em>With input coordinate (yellow circle), we use a spatial index (r-tree based) to obtain the region (black border) and district (red border)</em></p>
+
+<p>In this example, the person (yellow spot) was in the Numumoosh district
+(red border) of the Lowaki region (black border) resulting in the codes
+<strong>LN</strong>.</p>
+
+<h4 id="2-find-the-area-code-and-location-code-unique-address">
+<a class="anchor" href="#2-find-the-area-code-and-location-code-unique-address" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Find the area code and location code (unique address)</h4>
+
+<p>Area codes and location codes (unique addresses) were earlier stored in
+an SQLite database in a nested JSON structure, and tagged by their grid
+cell addresses. So, to find the corresponding area and location codes,
+we ask the grid system for the grid cell containing the input GPS
+coordinate at the area resolution and location resolution. We then query
+the database for the codes associated with these grid cells.</p>
+
+<p><img src="https://i.imgur.com/mcEHiE8.png" alt=""><em>Find the code for the area cell (blue hexagon) and location cell (green hexagon)</em></p>
+
+<p>In this example, the database coughed up <strong>7915</strong> for the area code, and
+<strong>002</strong> for the location code/unique address.</p>
+
+<h4 id="3-put-them-all-together">
+<a class="anchor" href="#3-put-them-all-together" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Put them all together!</h4>
+
+<p>Now combine each component from step 1 (<strong>LN</strong>) and 2 (<strong>7915</strong>,
+<strong>002</strong>) and voila! The final address!</p>
+
+<p><img src="https://i.imgur.com/OZ2aT9G.png" alt=""></p>
+
+<p>The final address for this person in Accra Mall is <strong>LN-7915-002</strong>.
+Hopefully, their date shows up.</p>
+
+<p>With core functionality complete, we move on to building the application
+users would interact with, in this next section.</p>
+
+<h3 id="step-3-application-development">
+<a class="anchor" href="#step-3-application-development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 3: Application Development</h3>
+
+<p>To demonstrate the solution, I built a replica of <a href="https://ghanapostgps.com/map/">the GhanaPost web
+app</a>. Since the language
+used so far was Python, I decided to make a minimal backend server
+‘around’ it. I chose the minimal Flask framework because there were only
+three endpoints needed for the app (one to serve the frontend, one to
+return unique addresses for GPS coordinates and the last to generate
+search suggestions using <a href="https://towardsdatascience.com/reverse-geocoding-in-python-a915acf29eb6">geopy’s
+geocoding</a>
+abilities).</p>
+
+<p>The front end was built with React.js library because why not? (I needed
+an opportunity to brush up on that skill) and Leaflet library was used
+to render the maps from OpenStreetMaps.</p>
+
+<p>Screenshots:
+<img src="https://i.imgur.com/1ntpZyF.png" alt=""></p>
+
+<p><img src="https://i.imgur.com/ondhtht.png" alt=""></p>
+
+<p><img src="https://i.imgur.com/lRIB83o.png" alt=""></p>
+
+<h2 id="conclusion">
+<a class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h2>
+
+<p><img src="https://i.imgur.com/c4a2Mu2.png" alt=""></p>
+
+<p>There you have it, that’s how I ‘recreated’ GhanaPostGPS, Ghana’s
+National Digital Address System. Check out the <a href="https://cutt.ly/ghanapostclone">live
+demo</a> and <a href="https://github.com/kevin-deyoungster/GhanaPostGPS-clone">source code on
+my GitHub</a>;
+I hope this was insightful for you. If you have any comments or
+questions, feel free to hit me up on my twitter
+<a href="https://twitter.com/kev_deyoungster">@kev_deyoungster</a> 🤗. Also, if
+you are from the team that built this system or work in the geospatial
+industry, I’d be very excited to hear from you!</p>
+
+<h2 id="acknowledgment">
+<a class="anchor" href="#acknowledgment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Acknowledgment</h2>
+
+<p>I give shout-outs to my friends Oracking, Jean-Sebastien and Boham for
+taking the time to review this write-up, and my little siblings for
+naming the regions and districts 🤗. Thanks to all the articles that
+helped me understand bits and pieces of GhanaPost, especially
+<a href="https://medium.com/@deladiamah/ghana-digital-addressing-system-revolutionary-or-ill-considered-acdd3360ff72">Adiamah’s</a>. Final
+appreciation to all the software engineers who work together to build
+and maintain open-source projects without which this project would not
+be possible, thank you all.</p>
+
+<h2 id="disclaimer">
+<a class="anchor" href="#disclaimer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Disclaimer</h2>
+
+<p>I do not work in the geospatial industry and therefore do not have the
+expert knowledge on geospatial analysis. This recreation was made from
+research and deductive reasoning. This is not a trivialization of the
+actual system which demands meticulous attention to detail (and, of
+course, has its <a href="https://medium.com/@deladiamah/ghana-digital-addressing-system-revolutionary-or-ill-considered-acdd3360ff72">weaknesses</a>).
+Lastly, this is a prototype, and its applications (backend and frontend)
+were not made for scale, please abeg.</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><a href="http://citifmonline.com/2017/10/nana-addo-launches-ghanas-digital-property-address-system/">http://citifmonline.com/2017/10/nana-addo-launches-ghanas-digital-property-address-system/</a> <a href="#fnref:1" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:2">
+      <p><a href="https://www.pulse.com.gh/ece-frontpage/digital-addressing-system-ghana-post-blows-ghc35-million-on-publicity-to-market/n4bhrdm">https://www.pulse.com.gh/ece-frontpage/digital-addressing-system-ghana-post-blows-ghc35-million-on-publicity-to-market/n4bhrdm</a> <a href="#fnref:2" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:3">
+      <p><a href="https://twitter.com/statsgh/status/1050062769456852993?s=20">https://twitter.com/statsgh/status/1050062769456852993?s=20</a> <a href="#fnref:3" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:4">
+      <p><a href="https://www.myjoyonline.com/news/mahama-has-no-clue-about-digital-address-system-bawumia-comes-for-his-favourite-target/">https://www.myjoyonline.com/news/mahama-has-no-clue-about-digital-address-system-bawumia-comes-for-his-favourite-target/</a> <a href="#fnref:4" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:5">
+      <p><a href="https://www.youtube.com/watch?v=sTa5iDbZXu0">https://www.youtube.com/watch?v=sTa5iDbZXu0</a> <a href="#fnref:5" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:6">
+      <p><a href="https://www.ghanaweb.com/GhanaHomePage/features/A-short-history-of-the-creation-of-regions-in-Ghana-717336">https://www.ghanaweb.com/GhanaHomePage/features/A-short-history-of-the-creation-of-regions-in-Ghana-717336</a> <a href="#fnref:6" class="reversefootnote">↩</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div><a class="u-url" href="/blog/ghanapost/digital%20address/geospatial/python/react/gis/2020/07/20/Recreating-GhanaPost.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Tech Blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kevin-deyoungster" title="kevin-deyoungster"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kev_deyoungster" title="kev_deyoungster"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

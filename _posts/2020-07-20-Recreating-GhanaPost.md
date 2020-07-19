@@ -259,10 +259,10 @@ nested JSON):
 ```javascript
 {
     [district_name]: {
-        [area\_cell\_address\]: {
+        [area_cell_address]: {
             id: int,
             children: {
-                [unique\_cell\_address\]: {
+                [unique_cell_address]: {
                     id: int
                 }  
                 ...

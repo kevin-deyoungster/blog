@@ -221,10 +221,13 @@ h6:hover .anchor-link {
 // Handle Overflow With Table Output
 
 table {
-  display: block !important;
+  // display: block !important;
   overflow-x: auto;
   white-space: nowrap;
   font-size: 75%;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
   border: none;
   th {
     text-align: center !important;
@@ -277,4 +280,12 @@ table {
 // Blockquote is large, make it smaller
 blockquote {
   font-size: 16px;
+}
+
+// Make captions center
+img + em {
+  display: block;
+  text-align: center;
+  // font-style: normal;
+  font-size: smaller;
 }

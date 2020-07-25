@@ -389,8 +389,7 @@ Conclusion
 
 There you have it, that's how I 'recreated' GhanaPostGPS, Ghana's
 National Digital Address System. Check out the [live
-demo](https://cutt.ly/ghanapostclone) and [source code on
-my GitHub](https://github.com/kevin-deyoungster/GhanaPostGPS-clone);
+demo](https://cutt.ly/ghanapostclone);
 I hope this was insightful for you. If you have any comments or
 questions, feel free to hit me up on my twitter
 [@kev\_deyoungster](https://twitter.com/kev_deyoungster) 🤗. Also, if

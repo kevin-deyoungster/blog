@@ -300,8 +300,8 @@ coordinates, *x* (latitude), *y* (longitude) and outputs an address *A*.
 The process of fetching the address for any given GPS coordinate is as
 follows:
 
-1.  Find which region and district (and region) it falls in and fetch their code (first letters)
-2.  Find which area *and* location it falls in and fetch its code from the datastore
+1.  Find which region and district it falls in and fetch their codes (first letters)
+2.  Find which area *and* location it falls in and fetch their codes from the datastore
 3.  Return the address by combining outputs from (1), (2)
 
 #### 1. Find the region and district that contain the GPS coordinate

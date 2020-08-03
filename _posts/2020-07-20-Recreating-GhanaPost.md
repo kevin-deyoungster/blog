@@ -192,7 +192,7 @@ and districts names to represent them (therefore no need for storage).
       <tr>
          <td><strong>U</strong>peaster</td>
          <td><strong>T</strong>ipo</td>
-         <td><strong>UP</strong></td>
+         <td><strong>UT</strong></td>
       </tr>
       <tr>
          <td colspan="3">Table showing four sample districts from each region and their codes</td>

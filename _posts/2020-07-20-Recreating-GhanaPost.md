@@ -7,7 +7,7 @@ title: Recreating Ghana's Digital Address System
 ---
 
 ![](https://i.imgur.com/L2aIeHC.png)
-*Screenshot of the frontend for this project (GhanaPostGPS clone). The map on the right shows the location marker and its cell (red polygon). The sidebar on the left shows the address details. **You can access the [demo](https://cutt.ly/ghanapostclone2) here**.*
+*Screenshot of the frontend for this project (GhanaPostGPS clone). The map on the right shows the location marker and its cell (red polygon). The sidebar on the left shows the address details. 
 
 ## Introduction
 
